@@ -1,4 +1,3 @@
-import { formatUnits } from "viem";
 import {
   useConnect,
   useConnection,
@@ -6,17 +5,8 @@ import {
   useDisconnect,
   useBalance,
 } from "wagmi";
+import { formatBalance } from "./utils/format";
 import "./App.css";
-
-/** MetaMask-style display: fixed fractional digits (e.g. 0.0500). */
-function formatBalance(
-  value: bigint,
-  decimals: number,
-  displayDecimals = 4,
-) {
-  const [whole, fraction = ""] = formatUnits(value, decimals).split(".");
-  return `${whole}.${fraction.padEnd(displayDecimals, "0").slice(0, displayDecimals)}`;
-}
 
 function App() {
   const { address, isConnected } = useConnection();
