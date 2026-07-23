@@ -1,32 +1,43 @@
-# React + TypeScript + Vite
+# Web3 Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A React dashboard for connecting a wallet and viewing on-chain account details. Built with [wagmi](https://wagmi.sh/), [viem](https://viem.sh/), and [Vite](https://vite.dev/).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Connect with MetaMask
+- Shortened address display
+- Native balance formatted for readability (e.g. `0.0500 ETH`)
+- Connected network name (currently Sepolia)
+- Confirm before disconnect
+- UI components via [shadcn/ui](https://ui.shadcn.com/)
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Layer | Tools |
+| --- | --- |
+| Frontend | React 19, TypeScript, Vite |
+| Styling | Tailwind CSS v4, shadcn/ui (Base UI) |
+| Web3 | wagmi v3, viem, MetaMask connector |
+| Data | TanStack Query |
 
-## Expanding the Oxlint configuration
+## Getting started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm install
+pnpm dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Open the local URL Vite prints (usually `http://localhost:5173`), then connect MetaMask on the Sepolia network.
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `pnpm dev` | Start the Vite dev server |
+| `pnpm build` | Typecheck and build for production |
+| `pnpm preview` | Preview the production build |
+| `pnpm lint` | Run Oxlint |
+
+## Network
+
+The app is configured for **Sepolia** in `src/config.ts`. To target another chain, update the wagmi `createConfig` chains and transports there.
