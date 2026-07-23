@@ -1,9 +1,15 @@
-import { useConnect, useConnection, useDisconnect } from "wagmi";
+import {
+  useConnect,
+  useConnection,
+  useConnectors,
+  useDisconnect,
+} from "wagmi";
 import "./App.css";
 
 function App() {
   const { address, isConnected } = useConnection();
-  const { connectors, mutate, isPending, error } = useConnect();
+  const connectors = useConnectors();
+  const { mutate, isPending, error } = useConnect();
   const { mutate: disconnect } = useDisconnect();
 
   if (isConnected) {
