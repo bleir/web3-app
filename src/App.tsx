@@ -16,7 +16,7 @@ function App() {
 
   const { data: balance } = useBalance({ address });
 
-  if (isConnected) {
+  if (isConnected && address) {
     return (
       <div id="center">
         <h2>Wallet connected</h2>
