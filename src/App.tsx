@@ -5,41 +5,46 @@ import {
   useDisconnect,
   useBalance,
 } from "wagmi";
-import { formatBalance, shortenAddress } from "./utils/format";
+import { formatBalance } from "./utils/format";
 import "./App.css";
+import { DisplayName } from "./DisplayName";
 
 function App() {
-  const { address, isConnected } = useConnection();
+  const { address, isConnected, chain } = useConnection();
   const connectors = useConnectors();
   const { mutate, isPending, error } = useConnect();
   const { mutate: disconnect } = useDisconnect();
-
   const { data: balance } = useBalance({ address });
 
   if (isConnected && address) {
     return (
       <div id="center">
-        <h2>Wallet connected</h2>
+        <h1>Wallet connected</h1>
+
+        <DisplayName address={address} />
+
+        <br />
+
+        <p>Your balance is:</p>
         <p>
-          Address: <code>{shortenAddress(address)}</code>
+          {balance
+            ? `${formatBalance(balance.value, balance.decimals)} ${balance.symbol}`
+            : "…"}{" "}
+          {chain?.name ?? "Unknown"}
         </p>
+
+        <br />
+
         <button className="counter" type="button" onClick={() => disconnect()}>
           Disconnect
         </button>
-        <hr />
-        <p>
-          Balance:{" "}
-          {balance
-            ? `${formatBalance(balance.value, balance.decimals)} ${balance.symbol}`
-            : "…"}
-        </p>
       </div>
     );
   }
 
   return (
     <div id="center">
-      <h2>Connect your wallet</h2>
+      <h1>Connect your wallet</h1>
       {connectors.map((connector) => (
         <button
           key={connector.uid}
