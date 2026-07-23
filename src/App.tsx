@@ -5,7 +5,7 @@ import {
   useDisconnect,
   useBalance,
 } from "wagmi";
-import { formatBalance } from "./utils/format";
+import { formatBalance, shortenAddress } from "./utils/format";
 import "./App.css";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       <div id="center">
         <h2>Wallet connected</h2>
         <p>
-          Address: <code>{address}</code>
+          Address: <code>{shortenAddress(address)}</code>
         </p>
         <button className="counter" type="button" onClick={() => disconnect()}>
           Disconnect
