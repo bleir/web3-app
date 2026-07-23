@@ -8,6 +8,19 @@ import {
 import { formatBalance } from "./utils/format";
 import "./App.css";
 import { DisplayName } from "./DisplayName";
+import { Card, CardContent, CardHeader } from "./components/ui/card";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 function App() {
   const { address, isConnected, chain } = useConnection();
@@ -23,21 +36,39 @@ function App() {
 
         <DisplayName address={address} />
 
-        <br />
+        <Card className="max-w-sm">
+          <CardHeader>Your balance is:</CardHeader>
+          <CardContent>
+            <p>
+              {balance
+                ? `${formatBalance(balance.value, balance.decimals)} ${balance.symbol}`
+                : "…"}{" "}
+              {chain?.name ?? "Unknown"}
+            </p>
+          </CardContent>
+        </Card>
 
-        <p>Your balance is:</p>
-        <p>
-          {balance
-            ? `${formatBalance(balance.value, balance.decimals)} ${balance.symbol}`
-            : "…"}{" "}
-          {chain?.name ?? "Unknown"}
-        </p>
-
-        <br />
-
-        <button className="counter" type="button" onClick={() => disconnect()}>
-          Disconnect
-        </button>
+        <AlertDialog>
+          <AlertDialogTrigger render={<Button variant="destructive" />}>
+            Disconnect
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                Are you sure you want to disconnect?
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                This action will disconnect you from the wallet.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={() => disconnect()}>
+                Continue
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     );
   }
@@ -46,15 +77,14 @@ function App() {
     <div id="center">
       <h1>Connect your wallet</h1>
       {connectors.map((connector) => (
-        <button
+        <Button
           key={connector.uid}
-          className="counter"
-          type="button"
+          variant="outline"
           disabled={isPending}
           onClick={() => mutate({ connector })}
         >
-          {isPending ? "Connecting…" : `Connect ${connector.name}`}
-        </button>
+          Connect to ${connector.name}
+        </Button>
       ))}
       {error && <p>Error: {error.message}</p>}
     </div>
